@@ -286,7 +286,10 @@
     <!-- Testimonials (Placeholder for now) -->
     <section id="reviews" class="section-98 section-md-110 bg-gray-darkest context-dark">
       <div class="container">
-        <h1>Student Reviews <span id="avg-rating" style="font-size: 0.6em; color: gold; display: none;"></span></h1>
+        <h1>Student Reviews</h1>
+        <div id="avg-rating-container" class="offset-top-10" style="color: gold; font-size: 1.5em; display: none;">
+          <span id="avg-rating"></span>
+        </div>
         <hr class="divider bg-white">
         <div class="row justify-content-center offset-top-50">
           <div class="col-md-10">
@@ -296,7 +299,7 @@
             <div id="reviews-grid" class="row">
               <div class="col-12 text-center">Loading reviews...</div>
             </div>
-            <div id="show-more-container" class="text-center offset-top-40" style="display: none;">
+            <div id="show-more-container" class="text-center" style="display: none; margin-top: 60px;">
               <button id="btn-show-more" class="btn btn-default btn-sm">Show More</button>
             </div>
           </div>
@@ -377,27 +380,26 @@
     }
 
     let allReviews = [];
-    let showingAll = false;
+    let visibleCount = 3;
 
     function renderReviews() {
       const container = document.getElementById('reviews-grid');
       const showMoreContainer = document.getElementById('show-more-container');
       const btnShowMore = document.getElementById('btn-show-more');
 
-      const reviewsToRender = showingAll ? allReviews : allReviews.slice(0, 3);
+      const reviewsToRender = allReviews.slice(0, visibleCount);
 
       container.innerHTML = reviewsToRender.map(createReviewCard).join('');
 
-      if (allReviews.length > 3) {
+      if (visibleCount < allReviews.length) {
         showMoreContainer.style.display = 'block';
-        btnShowMore.textContent = showingAll ? 'Show Less' : 'Show More';
       } else {
         showMoreContainer.style.display = 'none';
       }
     }
 
     document.getElementById('btn-show-more').addEventListener('click', function () {
-      showingAll = !showingAll;
+      visibleCount += 3;
       renderReviews();
     });
 
@@ -413,8 +415,9 @@
           const totalRate = allReviews.reduce((sum, r) => sum + (parseInt(r.Rate) || 0), 0);
           const avg = (totalRate / allReviews.length).toFixed(1);
           const avgEl = document.getElementById('avg-rating');
-          avgEl.innerHTML = `★ ${avg}`; // Using star emoji
-          avgEl.style.display = 'inline';
+          const avgContainer = document.getElementById('avg-rating-container');
+          avgEl.innerHTML = `★ ${avg}`;
+          avgContainer.style.display = 'block';
         }
 
         renderReviews();
