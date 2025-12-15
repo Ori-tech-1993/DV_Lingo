@@ -31,6 +31,20 @@
             display: block;
         }
 
+        @media (max-width: 767px) {
+            .rd-navbar-panel {
+                position: relative;
+            }
+
+            .rd-navbar-brand {
+                display: block !important;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                top: 5px;
+            }
+        }
+
         /* Custom overrides from index */
         .context-dark.bg-danger,
         .context-dark.bg-danger:before,
